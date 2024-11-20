@@ -1,0 +1,46 @@
+{% include 'navbar.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Summary</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2>Order Summary</h2>
+    <hr>
+
+    <h4>Order ID: {{ order.id }}</h4>
+    <p><strong>Total Price:</strong> ${{ order.total_price }}</p>
+
+    <h4>Items Purchased:</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in order.transaction.all %}
+                <tr>
+                    <td>{{ transaction.product.name }}</td>
+                    <td>{{ transaction.quantity }}</td>
+                    <td>${{ transaction.price }}</td>
+                    <td>${{ transaction.total_amount }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p><strong>Order placed on:</strong> {{ order.order_date }}</p>
+    <a href="{% url 'products:product_list' %}" class="btn btn-primary">Continue Shopping</a>
+</div>
+
+</body>
+</html>

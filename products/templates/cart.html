@@ -1,0 +1,109 @@
+{% include 'navbar.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .cart-container {
+            margin-top: 50px;
+        }
+
+        .table th, .table td {
+            text-align: center;
+        }
+
+        .total {
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+
+        .btn-remove {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-remove:hover {
+            background-color: #c82333;
+        }
+
+        .btn-update {
+            background-color: #ffc107;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-update:hover {
+            background-color: #e0a800;
+        }
+
+        .btn-checkout {
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+
+        .btn-checkout:hover {
+            background-color: #0056b3;
+        }
+
+        .empty-cart {
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container cart-container">
+    <h2>Your Shopping Cart</h2>
+    <hr>
+
+    {% if cart_items %}
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                    <tr>
+                        <td>{{ item.product.name }}</td>
+                        <td>
+                            <form method="POST" action="{% url 'products:update_cart_item' item.id %}">
+                                {% csrf_token %}
+                                <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="form-control" style="width: 70px;">
+                                <button type="submit" class="btn btn-update btn-sm mt-2">Update</button>
+                            </form>
+                        </td>
+                        <td>${{ item.product.price }}</td>
+                        <td>
+                            <form method="POST" action="{% url 'products:remove_from_cart' item.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-remove btn-sm">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <h3 class="total">Total: ${{ total }}</h3>
+        <a href="{% url 'products:checkout' %}" class="btn btn-checkout">Proceed to Checkout</a>
+    {% else %}
+        <p class="empty-cart">Your cart is empty. <a href="{% url 'products:product_list' %}">Browse products</a></p>
+    {% endif %}
+</div>
+
+</body>
+</html>

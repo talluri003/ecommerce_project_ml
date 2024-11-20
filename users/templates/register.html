@@ -1,0 +1,223 @@
+{% block content %}
+    <head>
+        <!-- Include Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: Arial, sans-serif;
+                background-color: rgb(121, 110, 69);
+                color: #b97f13;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+
+            .register-container {
+                background-color: white;
+                padding: 30px;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                width: 100%;
+                max-width: 400px;
+            }
+
+            h2 {
+                text-align: center;
+                margin-bottom: 20px;
+                color: rgb(17, 15, 15);
+            }
+
+            .form-group {
+                margin-bottom: 20px;
+                position: relative; /* For positioning the password toggle icon */
+            }
+
+            input[type="text"], input[type="password"], input[type="email"] {
+                width: 100%;
+                padding: 10px;
+                margin: 4px 0;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                font-size: 11px;
+                outline: none;
+            }
+
+            input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
+                border-color:  #b97f13;
+            }
+
+            .btn-register {
+                width: 100%;
+                padding: 12px;
+                color: rgb(19, 11, 11);
+                font-size: 16px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                background-color: #b97f13!important;
+                box-shadow:0px 2px 4px  #333;
+            }
+
+            .btn-register:hover {
+                background-color: #ddac51;
+                color: rgb(25, 23, 23);
+            }
+
+            .error-message {
+                color: red;
+                font-size: 12px;
+                margin-top: 10px;
+            }
+
+            .success-message {
+                color: green;
+                font-size: 12px;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+
+            a {
+                color: #170b85;
+                text-decoration: none;
+            }
+
+            a:hover {
+                text-decoration: underline;
+            }
+
+            button[type="submit"] {
+                cursor: pointer;
+                border: none;
+                background: none;
+            }
+
+            .footer {
+                margin-top: 10px;
+            }
+
+            .password-toggle {
+                position: absolute;
+                top: 65%!important;
+                right: 10px;
+                transform: translateY(-50%); /* Vertically center the icon */
+                cursor: pointer;
+                font-size: 18px;
+                color: #b97f13;
+            }
+        </style>
+    </head>
+
+    <div class="register-container">
+        <h2>Register</h2>
+        
+        {% if messages %}
+            <div class="success-message">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            <!-- Username Field -->
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">Username</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <div class="error-message">
+                        {% for error in form.username.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Password Field -->
+            <div class="form-group">
+                <label for="{{ form.password1.id_for_label }}">Password</label>
+                {{ form.password1 }}
+                <!-- Password visibility toggle icon -->
+                <i id="password1-toggle" class="password-toggle fas fa-eye-slash"></i>
+                {% if form.password1.errors %}
+                    <div class="error-message">
+                        {% for error in form.password1.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Confirm Password Field -->
+            <div class="form-group">
+                <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+                {{ form.password2 }}
+                <!-- Password visibility toggle icon for confirm password -->
+                <i id="password2-toggle" class="password-toggle fas fa-eye-slash"></i>
+                {% if form.password2.errors %}
+                    <div class="error-message">
+                        {% for error in form.password2.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            {% if form.non_field_errors %}
+                <div class="error-message">
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <button type="submit" class="btn-register">Register</button>
+
+            <div class="text-center footer">
+                <p>Already have an account? <a href="{% url 'users:login' %}">Login here</a></p>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const password1Field = document.querySelector('input[name="password1"]');
+        const toggleIcon1 = document.getElementById('password1-toggle');
+
+        toggleIcon1.addEventListener('click', function() {
+            if (password1Field.type === "password") {
+                password1Field.type = "text";
+                toggleIcon1.classList.remove('fa-eye-slash');
+                toggleIcon1.classList.add('fa-eye');
+            } else {
+                password1Field.type = "password";
+                toggleIcon1.classList.remove('fa-eye');
+                toggleIcon1.classList.add('fa-eye-slash');
+            }
+        });
+
+        const password2Field = document.querySelector('input[name="password2"]');
+        const toggleIcon2 = document.getElementById('password2-toggle');
+
+        toggleIcon2.addEventListener('click', function() {
+            if (password2Field.type === "password") {
+                password2Field.type = "text";
+                toggleIcon2.classList.remove('fa-eye-slash');
+                toggleIcon2.classList.add('fa-eye');
+            } else {
+                password2Field.type = "password";
+                toggleIcon2.classList.remove('fa-eye');
+                toggleIcon2.classList.add('fa-eye-slash');
+            }
+        });
+    </script>
+
+{% endblock %}

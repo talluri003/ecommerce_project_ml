@@ -1,0 +1,21 @@
+{% include 'navbar.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Deletion</title>
+</head>
+<body>
+
+    <h1>Are you sure you want to delete {{ product.name }}?</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Delete</button>
+        <a href="{% url 'products:product_list' %}">Cancel</a>
+    </form>
+
+</body>
+</html>

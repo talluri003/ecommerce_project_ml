@@ -1,0 +1,49 @@
+{% include 'navbar.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2>Checkout</h2>
+    <hr>
+    {% if cart_items %}
+        <form method="POST" action="{% url 'checkout' %}">
+            {% csrf_token %}
+            <h4>Your Cart:</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                        <tr>
+                            <td>{{ item.product.name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>${{ item.product.price }}</td>
+                            <td>${{ item.total_price }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <h3>Total: ${{ total }}</h3>
+            <button type="submit" class="btn btn-success">Place Order</button>
+        </form>
+    {% else %}
+        <p>Your cart is empty. <a href="/">Browse products</a></p>
+    {% endif %}
+</div>
+
+</body>
+</html>

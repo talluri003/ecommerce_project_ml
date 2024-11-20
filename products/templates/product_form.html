@@ -1,0 +1,236 @@
+{% include 'navbar.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: black;
+            padding: 15px 0;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #4CAF50;
+            margin-top: 40px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+        }
+
+        p {
+            color: #777;
+            text-align: center;
+            font-size: 1.2em;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .recommendation-section {
+            margin-bottom: 40px;
+        }
+
+        .product-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .product-item {
+            background-color: #fff;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            width: 200px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-item h3 {
+            margin: 10px 0;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .product-item p {
+            font-size: 1.2em;
+            color: #444;
+        }
+
+        .product-item img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+
+        form h1 {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form p {
+            color: #555;
+            font-size: 1.1em;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: row; 
+            justify-content: flex-start;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 1.1em;
+            color: #444;
+            margin-right: 20px;
+            width: 150px; 
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="file"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1.1em;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color:  #b97f13;;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color:  #b97f13;;
+        }
+
+        @media (max-width: 768px) {
+            form {
+                width: 90%;
+                padding: 15px;
+            }
+
+            form h1 {
+                font-size: 1.5rem;
+            }
+
+            .form-group {
+                flex-direction: column; 
+                align-items: flex-start;
+            }
+
+            label {
+                margin-bottom: 10px;
+                width: auto;
+            }
+
+            input[type="text"],
+            input[type="number"],
+            input[type="file"],
+            textarea,
+            select {
+                font-size: 1em;
+            }
+
+            button {
+                font-size: 1.1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            form h1 {
+                font-size: 1.3rem;
+            }
+
+            input[type="text"],
+            input[type="number"],
+            input[type="file"],
+            textarea,
+            select {
+                font-size: 0.9em;
+            }
+
+            button {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to the Dashboard, User {{ user_id }}</h1>
+
+    <div class="container">
+        <form method="post" enctype="multipart/form-data">
+            <h1>{% if form.instance.pk %}Edit Product{% else %}Create New Product{% endif %}</h1>
+    
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Save</button>
+        </form>
+    </div>
+
+</body>
+</html>

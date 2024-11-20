@@ -1,0 +1,400 @@
+{% include 'navbar.html' %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body, html {
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+
+.header-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+
+.search-bar {
+    display: flex;
+    gap: 10px;
+    flex-grow: 1;
+    max-width: 600px;
+}
+
+
+.search-bar input {
+    width: 70%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+
+.search-bar button {
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #b97f13;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+
+.search-bar button:hover {
+    background-color: #654f26;
+}
+
+
+.filter-dropdown, .create-product-btn {
+    display: inline-block;
+    padding: 10px;
+    font-size: 1em;
+    background-color: #b97f13;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+
+.filter-dropdown:hover, .create-product-btn:hover {
+    background-color: #654f26;
+}
+
+
+.cart-icon {
+    font-size: 1.2em;
+    color: #c7c7ea;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+
+.cart-icon .cart-count {
+    font-size: 1.2em;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: rgb(248, 167, 29);
+    color: rgb(23, 22, 22);
+    border-radius: 50%;
+    padding: 8px;
+}
+
+
+.view-cart-btn {
+    color: #12121b;
+    text-decoration: none;
+    margin-left: 10px;
+    font-size: 1em;
+}
+
+
+.view-cart-btn:hover {
+    color: #e74c3c;
+}
+
+
+.product-grid {
+ 
+
+
+
+
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 30px;
+   
+}
+
+
+.product-card, .recommended-card {
+    background-color: white;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                overflow: hidden;
+                margin: 10px;
+                width: 200px;
+                text-align: center;
+                cursor: pointer;
+}
+
+
+.product-card img, .recommended-card img {
+    width: 100%;
+    height: 40%;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    object-fit: cover;
+}
+
+
+.product-card h3, .recommended-card h4 {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    text-transform: capitalize;
+}
+
+
+.price {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #e74c3c;
+    margin-bottom: 15px;
+}
+
+
+.add-to-cart-btn {
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #a06a12;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: auto;
+}
+
+
+.add-to-cart-btn:hover {
+    background-color: #8b6719;
+}
+
+
+.center-content {
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+
+@media (max-width: 768px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+
+    .product-card, .recommended-card {
+        width: 90%;
+    }
+}
+
+
+@media (max-width: 480px) {
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+
+.step-links a {
+    color: #b97f13;
+    text-decoration: none;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+
+.step-links a:hover {
+    background-color: #e74c3c;
+    color: white;
+}
+
+
+.current {
+    font-size: 1.2em;
+    color: #2c3e50;
+}
+.action-btns {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+
+.action-btns a {
+    font-size: 1.1em;
+    color: #b7b7b7;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+
+.action-btns a:hover {
+    background-color: #e74c3c;
+    color: white;
+}
+
+
+.action-btns a i {
+    margin-right: 5px;
+}
+
+
+
+
+
+
+
+
+    </style>
+</head>
+<body>
+    {% load static %}
+    <div class="container">
+        <div class="header-actions">
+            <div class="search-bar">
+                <input type="text" name="search" placeholder="Search for products..." value="{{ search_query }}">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </div>
+
+
+            <div class="cart-icon">
+                <i class="fas fa-shopping-cart">{{ cart_item_count }}</i>
+                <a href="{% url 'products:cart_view' %}" class="view-cart-btn">View Cart</a>
+            </div>
+
+
+            <form method="GET" action="{% url 'products:product_list' %}">
+                <select name="category" class="filter-dropdown" onchange="this.form.submit()">
+                    <option value="">Filter by category</option>
+                    {% for value, label in categories %}
+                    <option value="{{ value }}" {% if value == category_filter %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </form>
+
+
+            {% if user.is_staff %}
+            <a href="{% url 'products:product_create' %}" class="create-product-btn">Create Product</a>
+            {% endif %}
+        </div>
+
+
+        <center><h2>Recommended Products</h2></center>
+        <div class="product-grid">
+            {% for rec_product in recommended_products %}
+            <div class="recommended-card">
+                <img src="{{ rec_product.image.url }}" alt="{{ rec_product.name }}">
+                <h4>{{ rec_product.name }}</h4>
+                <p class="price">${{ rec_product.price }}</p>
+                <a href="{% url 'products:product_detail' pk=rec_product.id %}">View Product</a>
+                <form method="POST" action="{% url 'products:add_to_cart' rec_product.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+                </form>
+            </div>
+            {% empty %}
+            <p>No recommended products available at the moment.</p>
+            {% endfor %}
+        </div>
+
+
+        <center><h2>Products List</h2></center>
+        <div class="product-grid">
+            {% for product in products %}
+         
+            <div class="product-card">
+                {% if user.is_staff %}
+
+                <div class="action-btns">
+                    <a href="{% url 'products:product_edit' product.id %}" title="Edit">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="{% url 'products:product_delete' product.id %}" title="Delete">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </div>
+                {% endif %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                <h3>{{ product.name }}</h3>
+                <p>{{ product.description }}</p>
+                <div class="price">${{ product.price }}</div>
+
+
+
+           
+                
+                <a href="{% url 'products:product_detail' pk=product.id %}">View Product</a>
+                <form method="POST" action="{% url 'products:add_to_cart' product.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+                </form>
+            </div>
+
+            {% endfor %}
+        </div>
+
+
+        <!-- Pagination Controls -->
+        <div class="pagination">
+            <div class="step-links">
+                {% if products.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ products.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="current">
+                    Page {{ products.number }} of {{ products.paginator.num_pages }}.
+                </span>
+                {% if products.has_next %}
+                <a href="?page={{ products.next_page_number }}">next</a>
+                <a href="?page={{ products.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+

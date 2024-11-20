@@ -1,0 +1,162 @@
+{% include 'navbar.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #0f0951;;
+            padding: 15px 0;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #0f0951;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+        }
+
+        p {
+            color: #777;
+            text-align: center;
+            font-size: 1.2em;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .recommendation-section {
+            margin-bottom: 40px;
+        }
+
+        .product-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .product-item {
+            background-color: #fff;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            width: 200px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-item h3 {
+            margin: 10px 0;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .product-item p {
+            font-size: 1.2em;
+            color: #444;
+        }
+
+        .product-item img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+
+        .evaluation-section {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .evaluation-section img {
+            max-width: 70%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to the Dashboard</h1>
+
+    <div class="container">
+        
+       
+
+                <!-- Model Evaluation Results Section -->
+                <div class="evaluation-section">
+                    <h2>Model Evaluation</h2>
+                    {% if plot_url %}
+                        <img src="data:image/png;base64,{{ plot_url }}" alt="Model Evaluation Plot">
+                    {% else %}
+                        <p>No evaluation plot available.</p>
+                    {% endif %}
+                </div>
+        
+        <!-- Recommended Products (KNN) Section -->
+        <div class="recommendation-section">
+            <h2>Recommended Products</h2>
+            {% if recommended_products %}
+                <div class="product-list">
+                    {% for product in recommended_products %}
+                        <div class="product-item">
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                            <h3>{{ product.name }}</h3>
+                            <p>${{ product.price }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>No KNN-based recommendations found.</p>
+            {% endif %}
+        </div>
+
+
+         <!-- Popular Products Plot Section -->
+         <div class="recommendation-section">
+            {% if popular_products_plot %}
+                <img src="data:image/png;base64,{{ popular_products_plot }}" alt="Popular Products">
+            {% else %}
+                <p>No popular products plot available.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
